@@ -1,0 +1,18 @@
+# Render Blueprint — HeatShield AI
+# Deploy: push to GitHub → connect repo on Render → static site is auto-detected
+# Or use "Blueprint" from this render.yaml in the Render dashboard.
+services:
+  - type: web
+    name: heatshield-ai
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
